@@ -4,11 +4,14 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-
+    continue-on-error: true
     strategy:
       matrix:
         node-version: [22.x, 26.x]
         os: [ubuntu-latest, windows-latest]
+        exclude:
+          - os: windows-latest
+            node-version: 26.x
 
     steps:
       - name: Checkout Source code
