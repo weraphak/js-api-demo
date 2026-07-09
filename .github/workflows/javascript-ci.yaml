@@ -3,7 +3,13 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        node-version: [22.x, 26.x]
+        os: [ubuntu-latest, windows-latest]
+
     steps:
       - name: Checkout Source code
         uses: actions/checkout@v7.0.0
@@ -12,6 +18,8 @@ jobs:
           
       - name: Setup Node.js environment
         uses: actions/setup-node@v6.4.0
+        with:
+          node-version: ${{ matrix.node-version }}
 
       - name: Build project
         run: |
